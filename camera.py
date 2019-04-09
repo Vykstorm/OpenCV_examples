@@ -1,8 +1,9 @@
 '''
 This script captures your camera image and display it on a window
-Press q to exit the program
-Press f to freeze/unfreeze the camera
-Press z to blur the image
+- Press q to exit the program
+- Press f to freeze/unfreeze the camera
+- Press z to blur the image
+- Press x to activate edge detector
 '''
 
 import cv2 as cv
