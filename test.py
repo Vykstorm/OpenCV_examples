@@ -3,6 +3,7 @@ This script is a simple test for opencv. It should work fine if you installed
 the library correctly on your system
 
 It creates a tv random noise effect
+Also it will print the opencv library version
 '''
 
 from time import time
@@ -22,4 +23,8 @@ def noisytv():
             cv2.imshow('test',i)
             cv2.waitKey(3) #integer milliseconds, 0 makes wait forever
 
-noisytv()
+if __name__ == '__main__':
+    # Print opencv version
+    print('OpenCV version: ', cv2.__version__.rjust(7))
+
+    noisytv()
