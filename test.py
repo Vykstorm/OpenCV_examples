@@ -23,8 +23,7 @@ def noisytv():
             cv2.imshow('test',i)
             cv2.waitKey(3) #integer milliseconds, 0 makes wait forever
 
-if __name__ == '__main__':
-    # Print opencv version
-    print('OpenCV version: ', cv2.__version__.rjust(7))
+# Print opencv version
+print('OpenCV version: ', cv2.__version__.rjust(7))
 
-    noisytv()
+noisytv()
