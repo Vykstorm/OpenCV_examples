@@ -11,6 +11,14 @@ class Camera:
         frame = cam.read()
         cv.imshow(frame)
         cv.waitKey(50)
+
+    It also implements the method __iter__. A Camera object can be used as an
+    iterator that yields camera frames
+
+    with Camera() as cam:
+        for frame in cam:
+            cv.imshow(frame)
+            cv.waitKey(50)
     '''
 
     def __init__(self, index=0):
@@ -27,7 +35,7 @@ class Camera:
     def init(self):
         '''
         Initializes the camera. Is called automatically when method
-        __enter__ or read() is called
+        read() is called
         If camera is already initialized, nothing is done
         '''
         if self.handler is None:
@@ -47,7 +55,6 @@ class Camera:
 
 
     def __enter__(self):
-        self.init()
         return self
 
     def __exit__(self, exc_type, exc_value, tcb):
@@ -67,12 +74,19 @@ class Camera:
         return frame
 
 
+    def __iter__(self):
+        '''
+        Returns an iterator that yields indefinitely camera frames
+        '''
+        while True:
+            frame = self.read()
+            yield frame
+
+
 if __name__ == '__main__':
     # Test
-    cam = Camera()
-    cam.init()
-    with cam as camera:
-        while True:
-            frame = camera.read()
+    camera = Camera()
+    with camera:
+        for frame in camera:
             cv.imshow('Camera', frame)
             cv.waitKey(50)
