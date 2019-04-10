@@ -2,8 +2,7 @@
 This script captures your camera image and display it on a window
 - Press q to exit the program
 - Press f to freeze/unfreeze the camera
-- Press z to blur the image
-- Press x to activate edge detector
+- Press z to change image mode: blur / edge detector / binary thresholding
 '''
 
 import cv2 as cv
@@ -17,8 +16,7 @@ if not cam.isOpened():
 
 fps = 15
 freeze = False
-blur = False
-edges = False
+mode = 0
 
 try:
     while True:
@@ -28,10 +26,13 @@ try:
             if not ret:
                 raise Exception('Failed getting camera image')
 
-            if blur:
+            if mode == 0:
                 frame = cv.medianBlur(frame, 15)
-            if edges:
+            elif mode == 1:
                 frame = cv.Canny(frame, 50, 150)
+            elif mode == 2:
+                frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+                frame = cv.adaptiveThreshold(frame, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 17, 3)
 
             cv.imshow('Camera', frame)
 
@@ -42,9 +43,7 @@ try:
         elif key == ord('f'):
             freeze = not freeze
         elif key == ord('z'):
-            blur = not blur
-        elif key == ord('x'):
-            edges = not edges
+            mode = (mode + 1) % 3
 
 finally:
     cam.release()
