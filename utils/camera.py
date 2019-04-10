@@ -1,4 +1,3 @@
-
 import cv2 as cv
 
 
@@ -21,6 +20,10 @@ class Camera:
         self.index = index
 
     def init(self):
+        '''
+        Initializes the camera. Is called automatically when method
+        __enter__ or read() is called
+        '''
         if self.handler is None:
             self.handler = cv.VideoCapture(self.index)
             if not self.handler.isOpened():
@@ -41,6 +44,8 @@ class Camera:
         return False
 
     def read(self):
+        if self.handler is None:
+            self.init()
         ret, frame = self.handler.read()
         if not ret:
             raise Exception('Error read the next camera frame')
